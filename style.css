@@ -1,6 +1,6 @@
 :root {
-  --pink: #ed0b53;
-  --bg: #0a0a0a;
+  --pink: #399dc9;
+  --bg: #09005a;
   --shadow: 0 2px 2px rgb(0 0 0 / 0.5);
 }
 
@@ -159,7 +159,7 @@ body {
 }
 
 .info .card {
-  background-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: var(--pink) !important;
   color: white !important;
   border: 1px solid #999;
 }
@@ -471,7 +471,7 @@ footer li {
   }
 
   .simply-countdown > .simply-section {
-    padding: 45px;
+    padding: 40px;
     margin: 3px;
   }
 
