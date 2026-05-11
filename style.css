@@ -1,11 +1,11 @@
 :root {
   --pink: #399dc9;
-  --bg: #09005a;
+  --bg: #0c4688;
   --shadow: 0 2px 2px rgb(0 0 0 / 0.5);
 }
 
 body {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-family: "Work Sans", sans-serif;
   min-height: 4000px;
 }
