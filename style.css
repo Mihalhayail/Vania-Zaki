@@ -101,6 +101,10 @@ body {
   font-weight: bold;
 }
 
+.info h2 {
+  color: white;
+}
+
 .home h3 {
   color: #444;
   font-size: 1.5rem;
@@ -151,7 +155,7 @@ body {
 }
 
 .info .alamat {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 
 .info .description {
@@ -160,19 +164,22 @@ body {
 }
 
 .info .card {
-  background-color: var(--pink) !important;
-  color: white !important;
+  background-color: #ebfbff !important;
+  color: var(--pink) !important;
   border: 1px solid #999;
+  font-weight: bold;
+  font-size: 1.8rem;
 }
 
 .info .card-header {
   border-bottom: 1px solid #999;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
+  font-family: "poppins", sans-serif;
 }
 
 .info .card-body {
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .info .card-footer {
@@ -472,7 +479,7 @@ footer li {
   }
 
   .simply-countdown > .simply-section {
-    padding: 35px;
+    padding: 42px;
     margin: 3px;
   }
 
