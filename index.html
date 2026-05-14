@@ -869,60 +869,67 @@
       });
     </script>
     <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const nama = urlParams.get("n") || "";
-      const pronoun = urlParams.get("p") || "Bapak/Ibu/Saudara/i";
-      const namaContainer = document.querySelector(".hero h4 span");
-      namaContainer.innerText = `${pronoun} ${nama},`.replace(/ ,$/, ",");
+      const scriptURL =
+        "https://script.google.com/macros/s/AKfycbzvBNTgWu9xwAc32NL1aXGr1rx6DoQ0Y8xoP5Td77z8nHaDDLM_Qh20L0B_00P191GS0g/exec";
+      const form = document.getElementById("wish-form");
+      const container = document.getElementById("comments-container");
 
-      document.querySelector("#nama").value = nama;
-    </script>
+      // 1. Fungsi Mengambil Data dari Google Sheets
+      function loadComments() {
+        container.innerHTML = '<p class="text-center">Memuat doa...</p>';
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const form = document.getElementById("wish-form");
-        const container = document.getElementById("comments-container");
+        fetch(scriptURL)
+          .then((response) => response.json())
+          .then((data) => {
+            // Data dari Sheets berupa array [ ["Nama", "Ucapan"], ... ]
+            container.innerHTML = data
+              .map(
+                (row) => `
+        <div class="comment-item">
+          <h5>${row[0]}</h5>
+          <p>${row[1]}</p>
+        </div>
+      `,
+              )
+              .reverse()
+              .join("");
+          })
+          .catch((error) => {
+            console.error("Error!", error.message);
+            container.innerHTML = "<p>Gagal memuat ucapan.</p>";
+          });
+      }
 
-        // 1. Fungsi untuk memuat komentar dari Local Storage
-        function loadComments() {
-          const comments =
-            JSON.parse(localStorage.getItem("wedding_wishes")) || [];
-          container.innerHTML = comments
-            .map(
-              (c) => `
-      <div class="comment-item">
-        <h5>${c.name}</h5>
-        <p>${c.message}</p>
-      </div>
-    `,
-            )
-            .reverse()
-            .join(""); // Menampilkan yang terbaru di atas
-        }
+      // 2. Fungsi Mengirim Data ke Google Sheets
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const submitBtn = form.querySelector("button");
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Mengirim...";
 
-        // 2. Logika saat form dikirim
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
+        const body = {
+          nama: document.getElementById("name").value,
+          ucapan: document.getElementById("message").value,
+        };
 
-          const name = document.getElementById("name").value;
-          const message = document.getElementById("message").value;
-
-          const newWish = { name, message };
-
-          // Simpan ke Local Storage
-          const comments =
-            JSON.parse(localStorage.getItem("wedding_wishes")) || [];
-          comments.push(newWish);
-          localStorage.setItem("wedding_wishes", JSON.stringify(comments));
-
-          // Reset form dan muat ulang tampilan
-          form.reset();
-          loadComments();
-        });
-
-        // Muat data saat halaman pertama kali dibuka
-        loadComments();
+        fetch(scriptURL, {
+          method: "POST",
+          body: JSON.stringify(body),
+        })
+          .then((response) => {
+            form.reset();
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Kirim Ucapan";
+            loadComments(); // Refresh daftar ucapan
+          })
+          .catch((error) => {
+            alert("Gagal mengirim ucapan, coba lagi.");
+            submitBtn.disabled = false;
+          });
       });
+
+      // Panggil saat halaman dibuka
+      loadComments();
     </script>
   </body>
 </html>
